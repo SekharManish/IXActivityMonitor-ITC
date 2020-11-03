@@ -1,0 +1,125 @@
+<mvc:View displayblock="true" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:viz="sap.viz.ui5.controls" xmlns:l="sap.ui.layout"
+	xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:viz.data="sap.viz.ui5.data" xmlns:core="sap.ui.core"
+	xmlns:c="sap.suite.ui.microchart" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="IXActivityMonitor.controller.View1">
+	<App>
+		<pages>
+			<Page title="IX Content Usage">
+				<content>
+					<viz:VizFrame id="vizFrame" vizProperties="{ title: {text : 'Number of Presentations Started', visible : true}}" width="auto" height="50%"
+						vizType="column">
+						<viz:dataset>
+							<viz.data:FlattenedDataset data="{/chartData}">
+								<viz.data:dimensions>
+									<viz.data:DimensionDefinition name="Location" value="{location}"/>
+								</viz.data:dimensions>
+								<viz.data:measures>
+									<viz.data:MeasureDefinition name="Count" value="{count}"/>
+								</viz.data:measures>
+							</viz.data:FlattenedDataset>
+						</viz:dataset>
+						<viz:feeds>
+							<viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="Location"/>
+							<viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Count"/>
+						</viz:feeds>
+					</viz:VizFrame>
+					<HBox wrap="Wrap" justifyContent="SpaceBetween">
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+						<HBox alignItems="Center">
+							<Text text="Start Date"/>
+							<DateTimeInput type="Date" change="sChange" displayFormat="yyyy-MM-dd" id="sDate"/>
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="End Date"/>
+							<DateTimeInput type="Date" change="eChange" displayFormat="yyyy-MM-dd" id="eDate"/>
+						</HBox>
+						<HBox alignItems="Center">
+							<Text text="Location"/>
+							<ComboBox id="lCombo" items="{/mainLoc}" change="checkLocation">
+								<core:Item key="{location}" text="{location}"/></ComboBox>
+						</HBox>
+						<ToolbarSpacer></ToolbarSpacer>
+						<Button text="Filter" press="onFilter"/>
+						<Button text="Reset" press="onClear"/>
+						<Button icon="sap-icon://excel-attachment" text="Download" press="onExport"/>
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+						<ToolbarSpacer></ToolbarSpacer>
+					</HBox>
+					<!--					<viz:VizFrame   id="idVizFrame"  vizType="column" width="100%" height="100%">-->
+					<!--</viz:VizFrame>-->
+					<!--<viz:VizFrame id="idVizFrame" uiConfig="{applicationSet:'fiori'}"-->
+					<!--              height='100%' width="100%" vizType='column'>-->
+					<!--              <viz:dataset>-->
+					<!--                  <viz.data:FlattenedDataset data="{/durations}">-->
+					<!--                      <viz.data:dimensions>-->
+					<!--                          <viz.data:DimensionDefinition name="Location"-->
+					<!--                              value="{location}" />-->
+					<!--                      </viz.data:dimensions>-->
+					<!--                      <viz.data:measures>-->
+					<!--                          <viz.data:MeasureDefinition name="Time"-->
+					<!--                              value="{time}" />-->
+					<!--<viz.data:MeasureDefinition name="Cost"-->
+					<!--    value="{Cost}" />-->
+					<!--                      </viz.data:measures>-->
+					<!--                  </viz.data:FlattenedDataset>-->
+					<!--              </viz:dataset>-->
+					<!--<viz:feeds>-->
+					<!--    <viz.feeds:FeedItem id='valueAxisFeed' uid="valueAxis" type="Measure"-->
+					<!--        values="Revenue" />-->
+					<!--    <viz.feeds:FeedItem id='categoryAxisFeed' uid="categoryAxis" type="Dimension"-->
+					<!--        values="Week" />-->
+					<!--</viz:feeds>-->
+					<!--          </viz:VizFrame>-->
+					<VBox width="100%">
+						<Table growing="true" growingThreshold="100" growingScrollToLoad="false" id="ixTable" width="auto" class="table" alternateRowColors="true"
+							items= "{ path : '/Activities' , sorter : { path : 'StartTime', descending: 'true' }}">
+							<columns>
+								<Column width="auto">
+									<Text text="Presentation Name"/>
+								</Column>
+								<Column width="auto" demandPopin="true">
+									<Text text="Creator"/>
+								</Column>
+								<Column width="auto" demandPopin="true">
+									<Text text="Location"/>
+								</Column>
+								<Column width="auto" demandPopin="true">
+									<Text text="Start Time"/>
+								</Column>
+								<Column width="auto" demandPopin="true">
+									<Text text="End Time"/>
+								</Column>
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier text="{PresentationName}"/>
+										<Text text="{PresentationOwner}"/>
+										<Text text="{RoomName}"/>
+										<!--<Text text="{path: 'StartTime', formatOptions: { pattern: 'yyyy-MM-dd\'T\'HH:mm:ss' } }"/
+										"{ path: 'StartTime', sorter :  descending: 'true'">-->
+										<Text text="{StartTime}"/>
+										<Text text="{EndTime}"/>
+										<!--<Text text="{StartTime}"/>-->
+										<!--<Text text="{EndTime}"/>-->
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</VBox>
+				</content>
+				<!--<footer>-->
+				<!--	<Toolbar>-->
+				<!--<content>-->
+				<!--		<ToolbarSpacer/>-->
+				<!--</content>	-->
+				<!--	</Toolbar>-->
+				<!--</footer>-->
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
